@@ -151,8 +151,8 @@ Thanks to:
 ## UI Screen-shots
 > ⚠️ **Note:** The UI currently works perfectly in the local environment. However, it's throwing errors during deployment. Debugging these errors requires multiple LLM API calls, which may exceed the free API usage limits and potentially break the entire multi-agent workflow. Hence, deployment has been temporarily withheld to preserve the project’s integrity.
 
-![Image1](intellectra\UI_output_images\Screenshot 2025-07-26 001028.png)
-![Image2](intellectra\UI_output_images\Screenshot 2025-07-26 001552.png)
-![Image3](intellectra\UI_output_images\Screenshot 2025-07-26 001603.png)
-![Image4](intellectra\UI_output_images\Screenshot 2025-07-26 001613.png)
-![Image5](intellectra\UI_output_images\Screenshot 2025-07-26 001628.png)
+![Image1](UI_output_images\Screenshot 2025-07-26 001028.png)
+![Image2](UI_output_images\Screenshot 2025-07-26 001552.png)
+![Image3](UI_output_images\Screenshot 2025-07-26 001603.png)
+![Image4](UI_output_images\Screenshot 2025-07-26 001613.png)
+![Image5](UI_output_images\Screenshot 2025-07-26 001628.png)
