@@ -1,38 +1,54 @@
-- **Competitor Name:** Teal
-  - **Link:** https://www.tealhq.com/
-  - **Problem Solved:** Helps job seekers organize and track their job applications, eliminating the need for spreadsheets and improving efficiency.
-  - **Features:** Centralized dashboard for tracking applications, automated reminders, status updates, integration with various job boards (potential).
-  - **Strengths:** User-friendly interface, focused on solving a specific user need, potential for future integrations to enhance functionality.
-  - **Weaknesses:** Relatively new, limited features compared to more established platforms, integration with job boards may be limited.
-  - **Monetization:** Likely a freemium model (free basic version with paid features for advanced functionalities).
-  - **SWOT Summary:**
-    * **Strengths:** User-friendly, focused solution, potential for growth.
-    * **Weaknesses:** Limited features, new to the market, dependence on user adoption.
-    * **Opportunities:** Expand features, integrate with more job boards and calendar applications, explore premium features for advanced users.
-    * **Threats:** Competition from other job application trackers and integrated features in larger productivity suites.
+* **Competitor Name:** Teal
+  * **Link:** https://www.tealhq.com/
+  * **Problem Solved:** Helps job seekers organize and track their job applications, eliminating the need for spreadsheets or disorganized notes.
+  * **Features:** Job bookmarking (manual and via Chrome extension), application status tracking, follow-up reminders, resume management tools (in paid version), and integration with job boards.
+  * **Strengths:** User-friendly interface, Chrome extension for easy job saving, free plan available.
+  * **Weaknesses:** Some features are limited in the free plan.  Paid version is more expensive compared to free alternatives like spreadsheets. Some user reviews express dissatisfaction with customer support or a lack of functionality.
+  * **Monetization:** Fremium model; offers a free plan with limited features and a paid plan (Teal+) with additional functionalities.
+  * **SWOT Summary:**
+    * **Strengths:** Easy to use, convenient Chrome extension, free plan available.
+    * **Weaknesses:** Limited free features, pricing can be high for a paid plan, some negative customer support reviews.
+    * **Opportunities:** Expand integrations with more job boards and HR platforms; improve customer service;  offer tailored plans for different user needs (e.g., students, experienced professionals).
+    * **Threats:** Competition from other job application trackers; evolving job search landscape; potential for user churn due to pricing or feature limitations.
 
-- **Competitor Name:** Simplify
-  - **Link:** https://www.simplify.jobs/
-  - **Problem Solved:** Streamlines the job search process, helping users build their personal brand and efficiently apply for jobs. Includes a job application tracker.
-  - **Features:** Job application tracking, resume building, cover letter generation, personal branding tools.
-  - **Strengths:** All-in-one platform for various aspects of job search, strong focus on user experience.
-  - **Weaknesses:** May be overwhelming for users only needing basic application tracking, features may not be as specialized as dedicated trackers.
-  - **Monetization:** Likely freemium or subscription based model.
-  - **SWOT Summary:**
-    * **Strengths:** Integrated platform, user-friendly, comprehensive tools.
-    * **Weaknesses:** Feature bloat, may be overkill for some users.
-    * **Opportunities:** Improve specific features like job application tracking based on user feedback, refine personal branding tools.
-    * **Threats:** Competition from specialized application trackers and other comprehensive job search platforms.
 
-- **Competitor Name:** LoopCV
-  - **Link:** https://www.loopcv.com/
-  - **Problem Solved:** Improves job application success rate by optimizing resumes and cover letters using AI and provides application tracking.
-  - **Features:** AI-powered resume and cover letter optimization, job application tracking, customized templates.
-  - **Strengths:** AI-driven features for resume optimization, focus on improving application success.
-  - **Weaknesses:** Reliance on AI may not always be accurate, pricing might be higher than other basic trackers.
-  - **Monetization:** Subscription based model, likely tiered pricing for different levels of access.
-  - **SWOT Summary:**
-    * **Strengths:** AI-powered features, focus on improving application outcomes.
-    * **Weaknesses:** Price point, reliance on AI accuracy.
-    * **Opportunities:** Expand AI capabilities to other aspects of job search, improve user feedback integration.
-    * **Threats:** Competition from other AI-driven resume tools and general application trackers.
+* **Competitor Name:** Huntr
+  * **Link:** https://huntr.co/
+  * **Problem Solved:**  Streamlines the job application process through AI-powered resume building, application autofill, and centralized job tracking.
+  * **Features:** AI-powered resume and cover letter generation, one-click application submission, job tracking dashboard, integration with various job boards, mobile app.
+  * **Strengths:** AI assistance for resume/cover letter creation, automation of application submissions, comprehensive tracking features.
+  * **Weaknesses:** Reliance on AI might result in generic or less personalized applications. Pricing may be a barrier for some users.  Potential for integration limitations with niche job boards.
+  * **Monetization:** Subscription-based model with different pricing tiers offering varying features.
+  * **SWOT Summary:**
+    * **Strengths:** AI-powered features, automation, comprehensive job tracking.
+    * **Weaknesses:**  Potential for generic AI output, pricing, limited integration with certain platforms.
+    * **Opportunities:** Improve AI algorithms for more personalized content; expand integrations; offer targeted plans for different user segments.
+    * **Threats:** Competition from similar AI-powered tools, user concerns about AI-generated content quality, market saturation in the job search space.
+
+
+* **Competitor Name:**  Notion (using templates)
+  * **Link:** https://www.notion.com/
+  * **Problem Solved:**  Offers a flexible workspace where users can create custom job application trackers using templates. Not specifically a job application tracker, but adaptable for this purpose.
+  * **Features:** Customizable databases, task management, note-taking, calendar integration.  Users create their own tracking system within Notion.
+  * **Strengths:** Highly customizable, integrates with other tools, relatively inexpensive, already a popular productivity tool.
+  * **Weaknesses:** Requires some technical skill to set up a job application tracker; not a dedicated solution, so it might lack some specialized features of purpose-built tools.
+  * **Monetization:** Fremium model with free and paid plans.
+  * **SWOT Summary:**
+    * **Strengths:** Customization, integration capabilities, cost-effectiveness, existing user base.
+    * **Weaknesses:**  Requires technical knowledge to create a customized tracker, lacks some purpose-built features.
+    * **Opportunities:** Create pre-built, optimized job application templates; improve ease of setup; target job seekers specifically.
+    * **Threats:** Competition from dedicated job application trackers; users might find it overly complex or time-consuming to set up.
+
+
+* **Competitor Name:**  Google Sheets/Excel (Spreadsheet solutions)
+  * **Link:**  N/A (common spreadsheet software)
+  * **Problem Solved:**  Users can manually create their own job application tracking spreadsheets.
+  * **Features:** Data entry, formula calculations, sorting/filtering, charting.
+  * **Strengths:** Free, widely available, highly customizable (though requires manual setup).
+  * **Weaknesses:**  Requires manual data entry and maintenance, prone to errors, lacks automation features, not user-friendly for all users.
+  * **Monetization:** Typically free (unless using a paid cloud storage service).
+  * **SWOT Summary:**
+    * **Strengths:** Free, widely available, highly customizable.
+    * **Weaknesses:** Manual data entry, error-prone, lack of automation, requires technical skill to effectively utilize.
+    * **Opportunities:**  Integration with other productivity apps (e.g., Google Calendar); creation of pre-made templates.
+    * **Threats:**  Competition from dedicated job application trackers; user preference for user-friendly interfaces and automation.

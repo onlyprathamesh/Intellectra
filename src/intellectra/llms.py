@@ -12,5 +12,5 @@ mixtral_llm2 = LLM(
 )
 gemini2 = LLM(
     model="gemini/gemini-1.5-flash",
-    api_key="AIzaSyBkLHEjGaqJD2329vlL-fW9k0vQy085LoE"
+    api_key="AIzaSyC8sTiiewSMeJXEkdN5bRntYZEbTsmJQFA"
 )
