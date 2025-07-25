@@ -1,0 +1,117 @@
+research_task:
+  description: >
+    Analyze the provided problem statement: {problem_statement}. Break it down into key components and identify all relevant domains, industries, and technologies. Use web tools to gather contextual data, current trends, known use cases, and strategic angles. Summarize your findings clearly and cite the source links where appropriate.
+  expected_output: >
+    1. Summary of problem breakdown
+    2. List of involved industries/domains
+    3. List of technologies/tools commonly used
+    4. Real-world examples or use-cases
+    5. Contextual background, trends, and citations
+  agent: researcher
+
+competitor_analysis_task:
+  description: >
+    Based on the research provided, identify existing tools, startups, products, or academic work that solve similar problems. 
+    For each competitor, analyze:
+      - What problem they solve
+      - Their core features
+      - Strengths and weaknesses
+      - Business or pricing model
+      - Target audience
+    Then give a short SWOT-style summary for each competitor.
+  expected_output: >
+    A list of 3-5 top competitors with bullet-point analysis:
+      - Competitor Name: ...
+      - Link: ...
+      - Problem Solved: ...
+      - Features: ...
+      - Strengths: ...
+      - Weaknesses: ...
+      - Monetization: ...
+      - SWOT Summary: ...
+  context: [research_task]
+  agent: competitor
+
+idea_improvement_task:
+  description: >
+    Using the research and competitor analysis, propose enhancements or new features for the problem statement. 
+    Focus on originality, practicality, and market fit. Consider how to differentiate from existing solutions.
+  expected_output: >
+    An enhanced version of the idea with novel features, better positioning, and creative differentiators.
+  context: [research_task, competitor_analysis_task]
+  agent: idea_improver
+
+tech_advisory_task:
+  description: >
+    Map the proposed product features to suitable technologies, frameworks, and tools. 
+    Provide insights on feasibility, scalability, and cost-effectiveness of the tech stack.
+  expected_output: >
+    A detailed tech stack recommendation including:
+      - Technologies/Frameworks/Tech Stack: ...
+      - Tools/APIs: ...
+      - (Optional) LLMs or AI models: ...
+      - Justification for choices:
+        - Estimated learning curve (Easy, Moderate, Hard)
+        - Approx. development time
+        - Free, One-time fee, or Monthly (mention approx.)
+        If something is not required (like AI), **do not include it just for the sake of it**. 
+        Use the internet via Serper tool if needed to check latest tools or APIs.
+  context: [idea_improvement_task]
+  agent: tech_advisor
+
+feasibility_analysis_task:
+  description: >
+    You're acting as a Feasibility Analyst for the product idea. Perform a 3-part evaluation:
+      1. **Build Feasibility**: Is this technically and resource-wise realistic for a small team to build within 1-3 months? What roles are needed? Any blockers?
+      2. **Market Potential**: Identify the possible user base, existing market demand, and top 2-3 competitors. Include any trending tools or growth signals using Serper.
+      3. **Risk Assessment**: Identify critical risks—technical, adoption, or financial—and how they can be minimized.
+  expected_output: >
+    A feasibility report including:
+      - Feasibility Score (High, Medium, Low)
+      - Market Fit Analysis
+      - Risk Assessment
+      - Recommendation (Proceed, Reconsider, Pivot)
+      - Be concise but insightful (use bullet points)
+      - Be actionable — if it's “Doable but hard,” state *why* and *how*
+      - Use Serper tool to check recent data if needed
+      - Conclude with a clear **Go / Go with Constraints / Don't Go** decision and why
+  context: [competitor_analysis_task, idea_improvement_task, tech_advisory_task]
+  agent: feasibility_analyst
+
+dev_planning_structuring_task:
+  description: >
+    Based on the improved product idea create a detailed project plan, including:
+      - Breakdown of features into components (frontend, backend, APIs, microservices, LLM blocks)
+      - Timelines and milestones
+      - Resource allocation (team roles, tools)
+      - Risk management strategies
+      - propose a clean, scalable folder structure
+    Ensure the plan is practical and aligns with the tech stack and product goals.
+  expected_output: >
+    A comprehensive project plan document including:
+      - Feature breakdown
+      - Modules / Components
+      - Proposed folder structure
+      - Timeline with milestones
+      - Team structure and roles
+      - Resource allocation
+      - Risk management strategies
+  context: [idea_improvement_task, tech_advisory_task]
+  agent: dev_architect
+
+summarizer_task:
+  description: >
+    Review and synthesize the outputs from all agents into a final report. Structure the document with clear sections (e.g., Introduction, Problem Statement, Research Summary, Competitor Analysis, Technical Architecture, Feasibility Insights, Development Plan, Conclusion). Ensure readability, formatting, and optional export to markdown, PDF, or docx formats.
+  expected_output: >
+    A polished project brief that includes:
+      - Executive Summary
+      - Problem Statement
+      - Research Findings
+      - Competitor Analysis
+      - Technical Architecture
+      - Feasibility Analysis
+      - Development Plan
+      - Conclusion and Next Steps
+    Ensure the document is well-structured, clear, and ready for stakeholder review.
+  context: [research_task, competitor_analysis_task, idea_improvement_task, tech_advisory_task, feasibility_analysis_task, dev_planning_structuring_task]
+  agent: summarizer
