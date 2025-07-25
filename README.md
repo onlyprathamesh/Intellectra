@@ -1,3 +1,6 @@
+> ⚠️ **Note:** If the system is throwing errors, it's likely due to the free-tier API usage limits being exceeded. Try changing the API key or wait for the quota to reset.
+
+
 # 🧠 Intellectra — Autonomous Market Research & Risk Assessment Agent System
 
 ## Problem Statement
@@ -143,3 +146,13 @@ Thanks to:
 3. Set up your API keys in `.env`
 4. Run the system with your business idea
 5. Get comprehensive market research and risk assessment!
+
+
+## UI Screen-shots
+> ⚠️ **Note:** The UI currently works perfectly in the local environment. However, it's throwing errors during deployment. Debugging these errors requires multiple LLM API calls, which may exceed the free API usage limits and potentially break the entire multi-agent workflow. Hence, deployment has been temporarily withheld to preserve the project’s integrity.
+
+![Image1](intellectra\UI_output_images\Screenshot 2025-07-26 001028.png)
+![Image2](intellectra\UI_output_images\Screenshot 2025-07-26 001552.png)
+![Image3](intellectra\UI_output_images\Screenshot 2025-07-26 001603.png)
+![Image4](intellectra\UI_output_images\Screenshot 2025-07-26 001613.png)
+![Image5](intellectra\UI_output_images\Screenshot 2025-07-26 001628.png)

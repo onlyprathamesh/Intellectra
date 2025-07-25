@@ -4,7 +4,7 @@ import os
 from io import StringIO
 import contextlib
 from pathlib import Path
-from main import Intellectra  # Import your existing Intellectra class
+# from main import Intellectra  # Import your existing Intellectra class - COMMENTED OUT
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -73,57 +73,60 @@ if run_button:
         results_container = st.container()
         
         with status_container:
-            st.info("🔄 CrewAI is running... Please wait.")
+            st.info("🔄 Loading results... Please wait.")
             progress_bar = st.progress(0)
             status_text = st.empty()
         
-        # Capture logs if enabled
-        if show_logs and logs_container:
-            with logs_container:
-                st.subheader("Execution Logs")
-                log_placeholder = st.empty()
-        
         try:
-            # Capture stdout for logs only if show_logs is enabled
-            if show_logs:
-                old_stdout = sys.stdout
-                sys.stdout = captured_output = StringIO()
-            
             # Update progress
             progress_bar.progress(25)
-            status_text.text("Initializing CrewAI...")
+            status_text.text("Reading summarizer output...")
             
-            # Run the crew
+            # COMMENTED OUT: CrewAI execution
+            # # Capture stdout for logs only if show_logs is enabled
+            # if show_logs:
+            #     old_stdout = sys.stdout
+            #     sys.stdout = captured_output = StringIO()
+            # 
+            # # Update progress
+            # progress_bar.progress(25)
+            # status_text.text("Initializing CrewAI...")
+            # 
+            # # Run the crew
+            # progress_bar.progress(50)
+            # status_text.text("Executing agents...")
+            # 
+            # # Your main execution
+            # result = Intellectra().crew().kickoff(inputs=inputs)
+            # 
+            # progress_bar.progress(75)
+            # status_text.text("Processing results...")
+            
+            # Read summarizer output directly
             progress_bar.progress(50)
-            status_text.text("Executing agents...")
+            status_text.text("Loading summary report...")
             
-            # Your main execution
-            result = Intellectra().crew().kickoff(inputs=inputs)
-            
-            progress_bar.progress(75)
-            status_text.text("Processing results...")
-            
-            # Read summarizer output
             summarizer_content = read_summarizer_output()
             
             progress_bar.progress(100)
-            status_text.text("✅ Execution completed!")
+            status_text.text("✅ Loading completed!")
             
-            # Restore stdout and show logs if enabled
-            if show_logs:
-                sys.stdout = old_stdout
-                captured_logs = captured_output.getvalue()
-                
-                if logs_container:
-                    with log_placeholder.container():
-                        if captured_logs:
-                            st.code(captured_logs, language="text")
-                        else:
-                            st.text("No logs captured during execution.")
+            # COMMENTED OUT: Log restoration
+            # # Restore stdout and show logs if enabled
+            # if show_logs:
+            #     sys.stdout = old_stdout
+            #     captured_logs = captured_output.getvalue()
+            #     
+            #     if logs_container:
+            #         with log_placeholder.container():
+            #             if captured_logs:
+            #                 st.code(captured_logs, language="text")
+            #             else:
+            #                 st.text("No logs captured during execution.")
             
             # Display results
             with results_container:
-                st.success("🎉 CrewAI execution completed successfully!")
+                st.success("🎉 Summary report loaded successfully!")
                 
                 # Show summarizer output if available
                 if summarizer_content:
@@ -139,54 +142,51 @@ if run_button:
                         file_name="summarizer_output.md",
                         mime="text/markdown"
                     )
-                    
-                    # Separator
-                    st.markdown("---")
-                
-                # Show additional results in an expander (optional)
-                with st.expander("Additional Results", expanded=False):
-                    # Display the result based on its type
-                    if hasattr(result, 'raw'):
-                        st.markdown("**Raw Output:**")
-                        st.write(result.raw)
-                    
-                    if hasattr(result, 'json_dict'):
-                        st.markdown("**Structured Output:**")
-                        st.json(result.json_dict)
-                    
-                    if hasattr(result, 'tasks_output'):
-                        st.markdown("**Task Outputs:**")
-                        for i, task_output in enumerate(result.tasks_output):
-                            with st.expander(f"Task {i+1} Output", expanded=False):
-                                st.write(task_output.raw if hasattr(task_output, 'raw') else str(task_output))
-                    
-                    # If result is a simple string or other type
-                    if isinstance(result, (str, dict, list)):
-                        st.write(result)
-                    
-                    # Download results option for raw data
-                    if hasattr(result, 'raw') and result.raw:
-                        st.download_button(
-                            label="📥 Download Raw Results",
-                            data=result.raw,
-                            file_name="crewai_raw_results.txt",
-                            mime="text/plain"
-                        )
-                
-                # If summarizer output is not available, show a message
-                if not summarizer_content:
+                else:
                     st.warning("📄 Summarizer output file not found at outputs/summarizer_output.md")
-                    st.info("The execution completed, but the summary report is not available. Check the 'Additional Results' section below for raw output.")
+                    st.info("Please ensure the summarizer_output.md file exists in the outputs folder.")
+                
+                # COMMENTED OUT: Additional results section
+                # # Show additional results in an expander (optional)
+                # with st.expander("Additional Results", expanded=False):
+                #     # Display the result based on its type
+                #     if hasattr(result, 'raw'):
+                #         st.markdown("**Raw Output:**")
+                #         st.write(result.raw)
+                #     
+                #     if hasattr(result, 'json_dict'):
+                #         st.markdown("**Structured Output:**")
+                #         st.json(result.json_dict)
+                #     
+                #     if hasattr(result, 'tasks_output'):
+                #         st.markdown("**Task Outputs:**")
+                #         for i, task_output in enumerate(result.tasks_output):
+                #             with st.expander(f"Task {i+1} Output", expanded=False):
+                #                 st.write(task_output.raw if hasattr(task_output, 'raw') else str(task_output))
+                #     
+                #     # If result is a simple string or other type
+                #     if isinstance(result, (str, dict, list)):
+                #         st.write(result)
+                #     
+                #     # Download results option for raw data
+                #     if hasattr(result, 'raw') and result.raw:
+                #         st.download_button(
+                #             label="📥 Download Raw Results",
+                #             data=result.raw,
+                #             file_name="crewai_raw_results.txt",
+                #             mime="text/plain"
+                #         )
         
         except Exception as e:
-            # Restore stdout in case of error
-            if show_logs and 'old_stdout' in locals():
-                sys.stdout = old_stdout
+            # COMMENTED OUT: Stdout restoration in error case
+            # # Restore stdout in case of error
+            # if show_logs and 'old_stdout' in locals():
+            #     sys.stdout = old_stdout
             
             progress_bar.progress(0)
             status_text.text("")
             
-            st.error(f"❌ An error occurred while running the crew: {str(e)}")
+            st.error(f"❌ An error occurred while loading the summary: {str(e)}")
             
             # Show error details in an expander
             with st.expander("Error Details", expanded=False):
