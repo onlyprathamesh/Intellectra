@@ -4,7 +4,7 @@ import os
 from io import StringIO
 import contextlib
 from pathlib import Path
-# from main import Intellectra  # Import your existing Intellectra class - COMMENTED OUT
+from main import Intellectra  # Import your existing Intellectra class
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -19,14 +19,16 @@ st.set_page_config(
 st.title("🤖 CrewAI Intellectra Platform")
 st.markdown("---")
 
-# Sidebar for configuration (optional)
+# Sidebar for configuration
 with st.sidebar:
     st.header("Configuration")
     st.info("Configure your CrewAI execution settings here")
     
-    # You can add more configuration options here
+    # Configuration options
     show_logs = st.checkbox("Show execution logs", value=False)
     auto_scroll = st.checkbox("Auto-scroll logs", value=True)
+    show_raw_output = st.checkbox("Show raw output", value=True)
+    show_task_outputs = st.checkbox("Show individual task outputs", value=False)
 
 # Main input section
 st.header("Problem Statement Input")
@@ -64,7 +66,6 @@ if run_button:
         # Create inputs dictionary
         inputs = {
             'problem_statement': problem_statement,
-            # Add more inputs as needed
         }
         
         # Create containers for output
@@ -73,66 +74,65 @@ if run_button:
         results_container = st.container()
         
         with status_container:
-            st.info("🔄 Loading results... Please wait.")
+            st.info("🔄 Initializing CrewAI execution... Please wait.")
             progress_bar = st.progress(0)
             status_text = st.empty()
         
+        # Create log placeholder if logs are enabled
+        if show_logs:
+            with logs_container:
+                st.subheader("📊 Execution Logs")
+                log_placeholder = st.empty()
+        
         try:
+            # Capture stdout for logs if enabled
+            if show_logs:
+                old_stdout = sys.stdout
+                sys.stdout = captured_output = StringIO()
+            
             # Update progress
             progress_bar.progress(25)
-            status_text.text("Reading summarizer output...")
+            status_text.text("Initializing CrewAI...")
             
-            # COMMENTED OUT: CrewAI execution
-            # # Capture stdout for logs only if show_logs is enabled
-            # if show_logs:
-            #     old_stdout = sys.stdout
-            #     sys.stdout = captured_output = StringIO()
-            # 
-            # # Update progress
-            # progress_bar.progress(25)
-            # status_text.text("Initializing CrewAI...")
-            # 
-            # # Run the crew
-            # progress_bar.progress(50)
-            # status_text.text("Executing agents...")
-            # 
-            # # Your main execution
-            # result = Intellectra().crew().kickoff(inputs=inputs)
-            # 
-            # progress_bar.progress(75)
-            # status_text.text("Processing results...")
+            # Initialize Intellectra
+            intellectra = Intellectra()
+            crew = intellectra.crew()
             
-            # Read summarizer output directly
+            # Update progress
             progress_bar.progress(50)
-            status_text.text("Loading summary report...")
+            status_text.text("Executing agents...")
             
+            # Run the crew
+            result = crew.kickoff(inputs=inputs)
+            
+            progress_bar.progress(75)
+            status_text.text("Processing results...")
+            
+            # Read summarizer output
             summarizer_content = read_summarizer_output()
             
             progress_bar.progress(100)
-            status_text.text("✅ Loading completed!")
+            status_text.text("✅ Execution completed!")
             
-            # COMMENTED OUT: Log restoration
-            # # Restore stdout and show logs if enabled
-            # if show_logs:
-            #     sys.stdout = old_stdout
-            #     captured_logs = captured_output.getvalue()
-            #     
-            #     if logs_container:
-            #         with log_placeholder.container():
-            #             if captured_logs:
-            #                 st.code(captured_logs, language="text")
-            #             else:
-            #                 st.text("No logs captured during execution.")
+            # Restore stdout and show logs if enabled
+            if show_logs:
+                sys.stdout = old_stdout
+                captured_logs = captured_output.getvalue()
+                
+                if logs_container:
+                    with log_placeholder.container():
+                        if captured_logs:
+                            st.code(captured_logs, language="text")
+                        else:
+                            st.text("No logs captured during execution.")
             
             # Display results
             with results_container:
-                st.success("🎉 Summary report loaded successfully!")
+                st.success("🎉 CrewAI execution completed successfully!")
                 
                 # Show summarizer output if available
                 if summarizer_content:
                     st.subheader("📋 Summary Report")
-                    
-                    # Display the markdown content
                     st.markdown(summarizer_content)
                     
                     # Download option for summary
@@ -142,62 +142,120 @@ if run_button:
                         file_name="summarizer_output.md",
                         mime="text/markdown"
                     )
-                else:
-                    st.warning("📄 Summarizer output file not found at outputs/summarizer_output.md")
-                    st.info("Please ensure the summarizer_output.md file exists in the outputs folder.")
                 
-                # COMMENTED OUT: Additional results section
-                # # Show additional results in an expander (optional)
-                # with st.expander("Additional Results", expanded=False):
-                #     # Display the result based on its type
-                #     if hasattr(result, 'raw'):
-                #         st.markdown("**Raw Output:**")
-                #         st.write(result.raw)
-                #     
-                #     if hasattr(result, 'json_dict'):
-                #         st.markdown("**Structured Output:**")
-                #         st.json(result.json_dict)
-                #     
-                #     if hasattr(result, 'tasks_output'):
-                #         st.markdown("**Task Outputs:**")
-                #         for i, task_output in enumerate(result.tasks_output):
-                #             with st.expander(f"Task {i+1} Output", expanded=False):
-                #                 st.write(task_output.raw if hasattr(task_output, 'raw') else str(task_output))
-                #     
-                #     # If result is a simple string or other type
-                #     if isinstance(result, (str, dict, list)):
-                #         st.write(result)
-                #     
-                #     # Download results option for raw data
-                #     if hasattr(result, 'raw') and result.raw:
-                #         st.download_button(
-                #             label="📥 Download Raw Results",
-                #             data=result.raw,
-                #             file_name="crewai_raw_results.txt",
-                #             mime="text/plain"
-                #         )
+                # Show main crew results
+                st.subheader("🔍 CrewAI Results")
+                
+                # Display raw output if enabled and available
+                if show_raw_output and hasattr(result, 'raw') and result.raw:
+                    with st.expander("Raw Output", expanded=True):
+                        st.markdown("**Complete Raw Output:**")
+                        st.write(result.raw)
+                        
+                        # Download raw results
+                        st.download_button(
+                            label="📥 Download Raw Results",
+                            data=result.raw,
+                            file_name="crewai_raw_results.txt",
+                            mime="text/plain"
+                        )
+                
+                # Display structured output if available
+                if hasattr(result, 'json_dict') and result.json_dict:
+                    with st.expander("Structured Output", expanded=False):
+                        st.markdown("**JSON Structured Output:**")
+                        st.json(result.json_dict)
+                
+                # Display individual task outputs if enabled
+                if show_task_outputs and hasattr(result, 'tasks_output') and result.tasks_output:
+                    st.markdown("**Individual Task Outputs:**")
+                    for i, task_output in enumerate(result.tasks_output):
+                        with st.expander(f"Task {i+1} Output", expanded=False):
+                            if hasattr(task_output, 'raw'):
+                                st.write(task_output.raw)
+                            else:
+                                st.write(str(task_output))
+                
+                # Handle other result types
+                if isinstance(result, (str, dict, list)) and not hasattr(result, 'raw'):
+                    with st.expander("Result Data", expanded=True):
+                        st.write(result)
+                
+                # Additional information
+                if not summarizer_content:
+                    st.info("💡 **Note:** Summarizer output file not found. The summary will be generated after crew execution completes.")
+                
+                # Show success metrics or additional info
+                col1, col2, col3 = st.columns(3)
+                with col1:
+                    st.metric("Status", "✅ Completed")
+                with col2:
+                    if hasattr(result, 'tasks_output'):
+                        st.metric("Tasks Executed", len(result.tasks_output))
+                    else:
+                        st.metric("Tasks Executed", "N/A")
+                with col3:
+                    st.metric("Result Type", type(result).__name__)
         
         except Exception as e:
-            # COMMENTED OUT: Stdout restoration in error case
-            # # Restore stdout in case of error
-            # if show_logs and 'old_stdout' in locals():
-            #     sys.stdout = old_stdout
+            # Restore stdout in case of error
+            if show_logs and 'old_stdout' in locals():
+                sys.stdout = old_stdout
             
             progress_bar.progress(0)
             status_text.text("")
             
-            st.error(f"❌ An error occurred while loading the summary: {str(e)}")
+            st.error(f"❌ An error occurred during CrewAI execution: {str(e)}")
             
             # Show error details in an expander
-            with st.expander("Error Details", expanded=False):
+            with st.expander("Error Details", expanded=True):
                 st.code(str(e), language="python")
+                
+                # Additional debugging info
+                st.markdown("**Debugging Information:**")
+                st.write(f"- Python version: {sys.version}")
+                st.write(f"- Current working directory: {os.getcwd()}")
+                st.write(f"- Problem statement length: {len(problem_statement)} characters")
+                
+                # Check if main.py exists
+                if not Path("main.py").exists():
+                    st.error("⚠️ main.py file not found. Please ensure it exists in the same directory.")
+                
+                # Check if outputs directory exists
+                if not Path("outputs").exists():
+                    st.warning("⚠️ outputs directory not found. It will be created during execution.")
+
+# Additional features section
+st.markdown("---")
+with st.expander("ℹ️ About This Platform", expanded=False):
+    st.markdown("""
+    ### CrewAI Intellectra Platform
+    
+    This platform allows you to:
+    - Execute CrewAI workflows with custom problem statements
+    - View real-time execution logs
+    - Download generated reports and outputs
+    - Monitor task execution progress
+    
+    ### Features:
+    - **Real-time Logging**: See what your agents are doing in real-time
+    - **Multiple Output Formats**: View raw, structured, and summary outputs
+    - **Download Results**: Save your results for later analysis
+    - **Error Handling**: Comprehensive error reporting and debugging
+    
+    ### Usage Tips:
+    1. Enter a clear, specific problem statement
+    2. Enable logs to see detailed execution progress
+    3. Use the sidebar options to customize what outputs you want to see
+    4. Download results for offline analysis
+    """)
 
 # Footer
 st.markdown("---")
 st.markdown(
     """
     <div style='text-align: center; color: #666;'>
-        Built with ❤️ using Streamlit and CrewAI
+        Built with ❤️ using Streamlit and CrewAI | Ready for Production Use
     </div>
     """,
     unsafe_allow_html=True
